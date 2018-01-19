@@ -24,3 +24,16 @@
     - python-pip
     - python3
     - python3-apt
+
+- name: add admins group
+  group:
+    name: admins
+    state: present
+
+- name: Allow 'admins' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%admins'
+    line: '%admins ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
